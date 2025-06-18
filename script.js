@@ -525,8 +525,39 @@ document.addEventListener('DOMContentLoaded', () => {
             yPos += lineHeight;
 
             doc.setFontSize(14);
+            doc.text('Assessment', margin, yPos); yPos += lineHeight;
+            doc.setFontSize(10);
+            assessmentItems.forEach(item => {
+                const assessmentArea = reportData.assessment?.[item];
+                const wnl = assessmentArea?.wnl;
+                const details = assessmentArea?.details;
+                let itemText = `${item.charAt(0).toUpperCase() + item.slice(1).replace('_', ' ')}: `;
+                if (wnl) {
+                    itemText += 'WNL';
+                } else {
+                    itemText += details || 'Not assessed';
+                }
+                // Check if yPos would exceed page height, add new page if so
+                if (yPos + lineHeight > doc.internal.pageSize.height - margin) {
+                    doc.addPage();
+                    yPos = margin;
+                }
+                doc.text(itemText, margin + 5, yPos); yPos += lineHeight;
+            });
+            yPos += lineHeight; // Extra space after assessment section
+
+            doc.setFontSize(14);
             doc.text('Narrative', margin, yPos); yPos += lineHeight;
             doc.setFontSize(10);
+            // Check if yPos would exceed page height before adding narrative
+            if (yPos + (doc.splitTextToSize(reportData.narrative || 'No narrative provided.', 180).length * lineHeight) > doc.internal.pageSize.height - margin) {
+                doc.addPage();
+                yPos = margin;
+                 // Re-add title if narrative starts on a new page
+                doc.setFontSize(14);
+                doc.text('Narrative (continued)', margin, yPos); yPos += lineHeight;
+                doc.setFontSize(10);
+            }
             const narrativeLines = doc.splitTextToSize(reportData.narrative || 'No narrative provided.', 180);
             doc.text(narrativeLines, margin + 5, yPos);
             
