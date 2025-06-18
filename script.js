@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutButton = document.getElementById('logoutButton');
     const reportList = document.getElementById('reportList');
     const refreshReportsButton = document.getElementById('refreshReportsButton');
+    const assessmentItems = [
+        'head', 'neck', 'chest', 'lung_sounds', 'abdomen',
+        'pelvis', 'right_leg', 'left_leg', 'right_arm', 'left_arm'
+    ];
     let vitalSetCounter = 1;
 
     // Check user session (auth.js should handle redirection if not logged in)
@@ -32,6 +36,35 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('reportListContainer').style.display = 'none';
         }
     }
+
+    // Function to toggle assessment details visibility
+    function toggleDetails(area) {
+        const checkbox = document.getElementById(`assessment_${area}_wnl`);
+        const detailsInput = document.getElementById(`assessment_${area}_details`);
+        if (checkbox && detailsInput) {
+            if (checkbox.checked) {
+                detailsInput.style.display = 'none';
+                detailsInput.value = ''; // Clear details if WNL
+            } else {
+                detailsInput.style.display = 'block';
+            }
+        }
+    }
+
+    // Add event listeners for assessment checkboxes
+    assessmentItems.forEach(area => {
+        const checkbox = document.getElementById(`assessment_${area}_wnl`);
+        if (checkbox) {
+            checkbox.addEventListener('change', () => toggleDetails(area));
+        }
+        // Ensure details are visible by default if not WNL, and WNL checkbox is not checked
+        const detailsInput = document.getElementById(`assessment_${area}_details`);
+        if (detailsInput && checkbox && !checkbox.checked) {
+            detailsInput.style.display = 'block';
+        } else if (detailsInput && checkbox && checkbox.checked) {
+            detailsInput.style.display = 'none'; // Hide if WNL is checked by default (e.g. on load)
+        }
+    });
 
     if (logoutButton) {
         logoutButton.addEventListener('click', async () => {
@@ -86,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             incidentDetails: {},
             patientInfo: {},
             vitalSets: [],
+            assessment: {},
             narrative: ''
         };
 
@@ -105,10 +139,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     vitalSetIndex = index;
                 }
                 currentVitalSet[fieldName] = value;
-            } else if (key === 'incidentDate' || key === 'incidentTime' || key === 'location') {
+            } else if (key === 'incidentDate' || key === 'incidentTime') { // Location removed
                 data.incidentDetails[key] = value;
             } else if (key === 'patientAge' || key === 'patientGender' || key === 'chiefComplaint') {
                 data.patientInfo[key] = value;
+            } else if (key.startsWith('assessment_') && key.endsWith('_wnl')) {
+                const assessmentArea = key.substring('assessment_'.length, key.lastIndexOf('_wnl'));
+                if (!data.assessment[assessmentArea]) data.assessment[assessmentArea] = {};
+                data.assessment[assessmentArea].wnl = formData.get(key) === 'wnl'; // Store as boolean
+            } else if (key.startsWith('assessment_') && key.endsWith('_details')) {
+                const assessmentArea = key.substring('assessment_'.length, key.lastIndexOf('_details'));
+                if (!data.assessment[assessmentArea]) data.assessment[assessmentArea] = {};
+                data.assessment[assessmentArea].details = value;
             } else if (key === 'narrative') {
                 data.narrative = value;
             }
@@ -157,6 +199,14 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchReports(); // Refresh the list of reports
             pcrForm.reset(); // Reset form after successful save
             resetVitalSetsUI(); // Reset vital sets UI
+            clearAssessmentCheckboxes(); // Clear assessment checkboxes
+            // Ensure detail boxes are reset to visible after saving a new report
+            assessmentItems.forEach(area => {
+                const detailsInput = document.getElementById(`assessment_${area}_details`);
+                if (detailsInput) {
+                    detailsInput.style.display = 'block'; // Make visible by default
+                }
+            });
         } catch (error) {
             console.error('Error saving report to Supabase:', error);
             alert('Failed to save report: ' + error.message);
@@ -182,6 +232,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchReports(); // Refresh the list of reports
                 pcrForm.reset(); // Reset form
                 resetVitalSetsUI(); // Reset vital sets UI
+                clearAssessmentCheckboxes(); // Clear assessment checkboxes
+                // Ensure detail boxes are reset to visible after updating a report
+                assessmentItems.forEach(area => {
+                    const detailsInput = document.getElementById(`assessment_${area}_details`);
+                    if (detailsInput) {
+                        detailsInput.style.display = 'block'; // Make visible by default
+                    }
+                });
                 document.getElementById('reportId').value = ''; // Clear hidden reportId
                 const saveButton = pcrForm.querySelector('button[type="submit"]');
                 if (saveButton) {
@@ -304,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Populate Incident Details
                 document.getElementById('incidentDate').value = formData.incidentDetails?.incidentDate || '';
                 document.getElementById('incidentTime').value = formData.incidentDetails?.incidentTime || '';
-                document.getElementById('location').value = formData.incidentDetails?.location || '';
+                // Location field removed from form
 
                 // Populate Patient Information
                 document.getElementById('patientAge').value = formData.patientInfo?.patientAge || '';
@@ -353,7 +411,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Update the global vitalSetCounter if it exists, or handle locally if not.
                 // This assumes vitalSetCounter is accessible or managed within this scope for adding new sets after viewing.
                 // If addVitalSet relies on a global vitalSetCounter, ensure it's updated.
-                window.vitalSetCounter = vitalSetCounter; // Assuming vitalSetCounter is global for addVitalSet functionality
+                window.vitalSetCounter = vitalSetCounter; // This assumes vitalSetCounter is global for addVitalSet functionality
+
+                // Populate assessment checkboxes
+                clearAssessmentCheckboxes(); // Clear existing state
+                if (formData.assessment) {
+                    populateAssessmentCheckboxes(formData.assessment);
+                }
 
                 // Change button text for editing mode if applicable
                 const saveButton = pcrForm.querySelector('button[type="submit"]');
@@ -479,20 +543,55 @@ document.addEventListener('DOMContentLoaded', () => {
         refreshReportsButton.addEventListener('click', fetchReports);
     }
 
-    clearFormButton.addEventListener('click', function() {
-        if (confirm('Are you sure you want to clear the form? All unsaved data will be lost.')) {
+    function populateAssessmentCheckboxes(assessmentData) {
+        console.log("Populating assessment with data:", assessmentData);
+        assessmentItems.forEach(area => {
+            const wnlCheckbox = document.getElementById(`assessment_${area}_wnl`);
+            const detailsInput = document.getElementById(`assessment_${area}_details`);
+
+            if (wnlCheckbox && detailsInput) {
+                if (assessmentData && assessmentData[area]) {
+                    wnlCheckbox.checked = assessmentData[area].wnl || false;
+                    detailsInput.value = assessmentData[area].details || '';
+                    detailsInput.style.display = wnlCheckbox.checked ? 'none' : 'block';
+                } else {
+                    // Default state: WNL unchecked, details visible and empty
+                    wnlCheckbox.checked = false;
+                    detailsInput.value = '';
+                    detailsInput.style.display = 'block';
+                }
+            } else {
+                console.warn(`Checkbox or details input not found for assessment area: ${area}`);
+            }
+        });
+    }
+
+    function clearAssessmentCheckboxes() {
+        assessmentItems.forEach(area => {
+            const wnlCheckbox = document.getElementById(`assessment_${area}_wnl`);
+            const detailsInput = document.getElementById(`assessment_${area}_details`);
+            if (wnlCheckbox) {
+                wnlCheckbox.checked = false;
+            }
+            if (detailsInput) {
+                detailsInput.value = '';
+                detailsInput.style.display = 'block'; // Default to visible when form is cleared
+            }
+        });
+    }
+
+    if (clearFormButton) {
+        clearFormButton.addEventListener('click', () => {
             pcrForm.reset();
-            // Reset dynamic vital signs section
             resetVitalSetsUI();
-            // Reset reportId and button text
-            document.getElementById('reportId').value = '';
+            clearAssessmentCheckboxes();
+            document.getElementById('reportId').value = ''; // Clear hidden reportId
             const saveButton = pcrForm.querySelector('button[type="submit"]');
             if (saveButton) {
                 saveButton.textContent = 'Save Report';
             }
-            console.log('Form cleared by user.');
-        }
-    });
+        });
+    }
 
     function resetVitalSetsUI() {
         vitalsContainer.innerHTML = `

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMT Student PCR Form</title>
+    <title>Student Ridetime PCR Form</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <mcreference link="https://cdnjs.com/libraries/jspdf" index="1">1</mcreference>
@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <button id="logoutButton" style="float: right; background-color: #d9534f;">Logout</button>
-        <h1>EMT Student Patient Care Report</h1>
+        <h1>Student Ridetime Patient Care Report</h1>
         <div id="reportListContainer" style="margin-bottom: 20px;">
             <h2>Previous Reports</h2>
             <ul id="reportList"></ul>
@@ -27,9 +27,6 @@
 
             <label for="incidentTime">Time of Call:</label>
             <input type="time" id="incidentTime" name="incidentTime" required>
-
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" required>
 
             <h2>Patient Information</h2>
             <label for="patientAge">Age:</label>
@@ -69,6 +66,70 @@
                 </div>
             </div>
             <button type="button" id="addVitalSet">Add Another Vital Set</button>
+
+            <h2>Assessment (WNL - Within Normal Limits)</h2>
+            <div id="assessmentContainer">
+                <div class="assessment-item">
+                    <label for="assessment_head">Head:</label>
+                    <input type="checkbox" id="assessment_head_wnl" name="assessment_head_wnl" value="wnl">
+                    <label for="assessment_head_wnl" class="checkbox-label">WNL</label>
+                    <input type="text" id="assessment_head_details" name="assessment_head_details" class="assessment-details" placeholder="Details (if not WNL)" style="display: block;">
+                </div>
+                <div class="assessment-item">
+                    <label for="assessment_neck">Neck:</label>
+                    <input type="checkbox" id="assessment_neck_wnl" name="assessment_neck_wnl" value="wnl">
+                    <label for="assessment_neck_wnl" class="checkbox-label">WNL</label>
+                    <input type="text" id="assessment_neck_details" name="assessment_neck_details" class="assessment-details" placeholder="Details (if not WNL)" style="display: block;">
+                </div>
+                <div class="assessment-item">
+                    <label for="assessment_chest">Chest:</label>
+                    <input type="checkbox" id="assessment_chest_wnl" name="assessment_chest_wnl" value="wnl">
+                    <label for="assessment_chest_wnl" class="checkbox-label">WNL</label>
+                    <input type="text" id="assessment_chest_details" name="assessment_chest_details" class="assessment-details" placeholder="Details (if not WNL)" style="display: block;">
+                </div>
+                <div class="assessment-item">
+                    <label for="assessment_lung_sounds">Lung Sounds:</label>
+                    <input type="checkbox" id="assessment_lung_sounds_wnl" name="assessment_lung_sounds_wnl" value="wnl">
+                    <label for="assessment_lung_sounds_wnl" class="checkbox-label">WNL</label>
+                    <input type="text" id="assessment_lung_sounds_details" name="assessment_lung_sounds_details" class="assessment-details" placeholder="Details (if not WNL)" style="display: block;">
+                </div>
+                <div class="assessment-item">
+                    <label for="assessment_abdomen">Abdomen:</label>
+                    <input type="checkbox" id="assessment_abdomen_wnl" name="assessment_abdomen_wnl" value="wnl">
+                    <label for="assessment_abdomen_wnl" class="checkbox-label">WNL</label>
+                    <input type="text" id="assessment_abdomen_details" name="assessment_abdomen_details" class="assessment-details" placeholder="Details (if not WNL)" style="display: block;">
+                </div>
+                <div class="assessment-item">
+                    <label for="assessment_pelvis">Pelvis:</label>
+                    <input type="checkbox" id="assessment_pelvis_wnl" name="assessment_pelvis_wnl" value="wnl">
+                    <label for="assessment_pelvis_wnl" class="checkbox-label">WNL</label>
+                    <input type="text" id="assessment_pelvis_details" name="assessment_pelvis_details" class="assessment-details" placeholder="Details (if not WNL)" style="display: block;">
+                </div>
+                <div class="assessment-item">
+                    <label for="assessment_right_leg">Right Leg:</label>
+                    <input type="checkbox" id="assessment_right_leg_wnl" name="assessment_right_leg_wnl" value="wnl">
+                    <label for="assessment_right_leg_wnl" class="checkbox-label">WNL</label>
+                    <input type="text" id="assessment_right_leg_details" name="assessment_right_leg_details" class="assessment-details" placeholder="Details (if not WNL)" style="display: block;">
+                </div>
+                <div class="assessment-item">
+                    <label for="assessment_left_leg">Left Leg:</label>
+                    <input type="checkbox" id="assessment_left_leg_wnl" name="assessment_left_leg_wnl" value="wnl">
+                    <label for="assessment_left_leg_wnl" class="checkbox-label">WNL</label>
+                    <input type="text" id="assessment_left_leg_details" name="assessment_left_leg_details" class="assessment-details" placeholder="Details (if not WNL)" style="display: block;">
+                </div>
+                <div class="assessment-item">
+                    <label for="assessment_right_arm">Right Arm:</label>
+                    <input type="checkbox" id="assessment_right_arm_wnl" name="assessment_right_arm_wnl" value="wnl">
+                    <label for="assessment_right_arm_wnl" class="checkbox-label">WNL</label>
+                    <input type="text" id="assessment_right_arm_details" name="assessment_right_arm_details" class="assessment-details" placeholder="Details (if not WNL)" style="display: block;">
+                </div>
+                <div class="assessment-item">
+                    <label for="assessment_left_arm">Left Arm:</label>
+                    <input type="checkbox" id="assessment_left_arm_wnl" name="assessment_left_arm_wnl" value="wnl">
+                    <label for="assessment_left_arm_wnl" class="checkbox-label">WNL</label>
+                    <input type="text" id="assessment_left_arm_details" name="assessment_left_arm_details" class="assessment-details" placeholder="Details (if not WNL)" style="display: block;">
+                </div>
+            </div>
             
             <h2>Narrative</h2>
             <label for="narrative">Narrative/Assessment/Treatment:</label>

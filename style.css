@@ -1,8 +1,8 @@
 body {
-    font-family: sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     margin: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text */
     line-height: 1.6;
     padding: 20px;
 }
@@ -11,20 +11,20 @@ body {
     max-width: 800px;
     margin: 30px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #1e1e1e; /* Slightly lighter dark for container */
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Adjusted shadow for dark theme */
 }
 
 h1 {
-    color: #333;
+    color: #ffffff;
     text-align: center;
     margin-bottom: 20px;
 }
 
 h2 {
-    color: #555;
-    border-bottom: 1px solid #eee;
+    color: #bbbbbb;
+    border-bottom: 1px solid #333;
     padding-bottom: 10px;
     margin-top: 30px;
 }
@@ -36,17 +36,40 @@ label {
 }
 
 input[type="text"],
+input[type="email"],
+input[type="password"],
 input[type="date"],
 input[type="time"],
 input[type="number"],
 select,
 textarea {
     width: calc(100% - 22px);
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #444; /* Darker border */
     border-radius: 4px;
-    box-sizing: border-box; /* Important to include padding and border in the element's total width and height */
+    box-sizing: border-box;
+    background-color: #2c2c2c; /* Dark input background */
+    color: #e0e0e0; /* Light input text */
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #2c2c2c inset !important;
+    -webkit-text-fill-color: #e0e0e0 !important;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27292.4%27%20height%3D%27292.4%27%3E%3Cpath%20fill%3D%27%23e0e0e0%27%20d%3D%27M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%27%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 30px; /* Make space for the arrow */
 }
 
 textarea {
@@ -54,26 +77,27 @@ textarea {
 }
 
 button {
-    background-color: #5cb85c;
+    background-color: #007bff; /* Modern blue */
     color: white;
-    padding: 10px 15px;
+    padding: 12px 18px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     margin-right: 10px;
+    transition: background-color 0.2s ease-in-out;
 }
 
 button:hover {
-    background-color: #4cae4c;
+    background-color: #0056b3; /* Darker blue on hover */
 }
 
 button[type="button"] {
-    background-color: #f0ad4e;
+    background-color: #6c757d; /* Grey for secondary actions */
 }
 
 button[type="button"]:hover {
-    background-color: #ec971f;
+    background-color: #545b62; /* Darker grey on hover */
 }
 
 /* Basic responsiveness */
@@ -90,53 +114,56 @@ button[type="button"]:hover {
 
 .vital-set {
     padding: 15px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #333;
     border-radius: 5px;
     margin-bottom: 20px;
-    background-color: #f9f9f9;
+    background-color: #252525; /* Darker shade for vital sets */
 }
 
 .vital-set h4 {
     margin-top: 0;
-    color: #444;
-    border-bottom: 1px dashed #ccc;
+    color: #cccccc;
+    border-bottom: 1px dashed #444;
     padding-bottom: 5px;
 }
 
 #addVitalSet {
-    background-color: #337ab7;
+    background-color: #007bff; /* Consistent with other buttons */
     margin-top: 10px;
-    margin-bottom: 20px; /* Add some space before the Narrative section */
+    margin-bottom: 20px;
 }
 
 #addVitalSet:hover {
-    background-color: #286090;
+    background-color: #0056b3; /* Consistent with other buttons */
 }
 
 #logoutButton {
+    background-color: #dc3545; /* Red for logout/destructive action */
     padding: 8px 12px;
     font-size: 0.9em;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     color: white;
+    transition: background-color 0.2s ease-in-out;
 }
 
 #logoutButton:hover {
-    background-color: #c9302c; /* Darker red */
+    background-color: #bd2130; /* Darker red on hover */
 }
 
 #reportListContainer {
     margin-top: 20px;
     padding: 15px;
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
+    background-color: #252525; /* Consistent dark shade */
+    border: 1px solid #333;
     border-radius: 5px;
 }
 
 #reportListContainer h2 {
     margin-top: 0;
-    border-bottom: 1px solid #eee;
+    color: #bbbbbb;
+    border-bottom: 1px solid #333;
     padding-bottom: 10px;
 }
 
@@ -147,7 +174,8 @@ button[type="button"]:hover {
 
 #reportList li {
     padding: 8px 0;
-    border-bottom: 1px dotted #ddd;
+    border-bottom: 1px dotted #444; /* Darker dotted line */
+    color: #c0c0c0; /* Lighter text for list items */
 }
 
 #reportList li:last-child {
@@ -156,17 +184,85 @@ button[type="button"]:hover {
 
 .view-report-btn {
     margin-left: 10px;
-    padding: 3px 8px;
+    padding: 4px 10px;
     font-size: 0.8em;
-    background-color: #5bc0de;
+    background-color: #17a2b8; /* Info blue */
     color: white;
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .view-report-btn:hover {
-    background-color: #31b0d5;
+    background-color: #117a8b; /* Darker info blue */
+}
+
+#refreshReportsButton {
+    background-color: #6c757d; /* Grey for secondary actions */
+    margin-top:10px;
+}
+
+#refreshReportsButton:hover {
+    background-color: #545b62; /* Darker grey on hover */
+}
+
+/* Links */
+a {
+    color: #007bff; /* Standard link blue */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Auth Message */
+#authMessage {
+    margin-top: 15px;
+    color: #dc3545; /* Red for error messages */
+    font-weight: bold;
+}
+
+/* Assessment Section */
+#assessmentContainer {
+    margin-bottom: 20px;
+}
+
+.assessment-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.assessment-item label:first-child {
+    flex-basis: 150px; /* Adjust as needed for label width */
+    margin-right: 10px;
+}
+
+.assessment-item input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.assessment-details {
+    width: calc(100% - 150px); /* Adjust width as needed */
+    margin-left: 10px;
+    padding: 8px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #333;
+    color: #fff;
+    box-sizing: border-box;
+    font-size: 0.9em;
+}
+
+.checkbox-label {
+    color: #ccc; /* Light grey for checkbox labels */
+    font-size: 0.9em;
+    vertical-align: middle;
+    margin-right: 10px; /* Add some space before the details input */
 }
 
 #refreshReportsButton {
