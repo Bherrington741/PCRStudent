@@ -1,0 +1,179 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #555;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 30px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
+select,
+textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important to include padding and border in the element's total width and height */
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+button[type="button"] {
+    background-color: #f0ad4e;
+}
+
+button[type="button"]:hover {
+    background-color: #ec971f;
+}
+
+/* Basic responsiveness */
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+}
+
+.vital-set {
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+.vital-set h4 {
+    margin-top: 0;
+    color: #444;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 5px;
+}
+
+#addVitalSet {
+    background-color: #337ab7;
+    margin-top: 10px;
+    margin-bottom: 20px; /* Add some space before the Narrative section */
+}
+
+#addVitalSet:hover {
+    background-color: #286090;
+}
+
+#logoutButton {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+}
+
+#logoutButton:hover {
+    background-color: #c9302c; /* Darker red */
+}
+
+#reportListContainer {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+#reportListContainer h2 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+#reportList {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#reportList li {
+    padding: 8px 0;
+    border-bottom: 1px dotted #ddd;
+}
+
+#reportList li:last-child {
+    border-bottom: none;
+}
+
+.view-report-btn {
+    margin-left: 10px;
+    padding: 3px 8px;
+    font-size: 0.8em;
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.view-report-btn:hover {
+    background-color: #31b0d5;
+}
+
+#refreshReportsButton {
+    background-color: #6c757d;
+    margin-top:10px;
+}
+
+#refreshReportsButton:hover {
+    background-color: #5a6268;
+}

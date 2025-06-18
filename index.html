@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EMT PCR App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> <mcreference link="https://www.jsdelivr.com/package/npm/@supabase/supabase-js" index="2">2</mcreference>
+</head>
+<body>
+    <div class="container">
+        <h1>Login to PCR App</h1>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="#" id="showSignUp">Sign Up</a></p>
+        </form>
+
+        <form id="signUpForm" style="display:none;">
+            <h2>Sign Up</h2>
+            <label for="signUpEmail">Email:</label>
+            <input type="email" id="signUpEmail" name="signUpEmail" required>
+
+            <label for="signUpPassword">Password:</label>
+            <input type="password" id="signUpPassword" name="signUpPassword" required>
+
+            <button type="submit">Sign Up</button>
+            <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+        </form>
+        <div id="authMessage" style="margin-top: 15px; color: red;"></div>
+    </div>
+    <script src="auth.js"></script>
+</body>
+</html>

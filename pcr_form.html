@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMT Student PCR Form</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <mcreference link="https://cdnjs.com/libraries/jspdf" index="1">1</mcreference>
+</head>
+<body>
+    <div class="container">
+        <button id="logoutButton" style="float: right; background-color: #d9534f;">Logout</button>
+        <h1>EMT Student Patient Care Report</h1>
+        <div id="reportListContainer" style="margin-bottom: 20px;">
+            <h2>Previous Reports</h2>
+            <ul id="reportList"></ul>
+            <button id="refreshReportsButton">Refresh Reports</button>
+        </div>
+        <hr>
+        <h2>New Report</h2>
+        <form id="pcrForm">
+            <input type="hidden" id="reportId" name="reportId">
+            <h2>Incident Details</h2>
+            <label for="incidentDate">Date:</label>
+            <input type="date" id="incidentDate" name="incidentDate" required>
+
+            <label for="incidentTime">Time of Call:</label>
+            <input type="time" id="incidentTime" name="incidentTime" required>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
+
+            <h2>Patient Information</h2>
+            <label for="patientAge">Age:</label>
+            <input type="number" id="patientAge" name="patientAge">
+
+            <label for="patientGender">Gender:</label>
+            <select id="patientGender" name="patientGender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+                <option value="unknown">Unknown</option>
+            </select>
+
+            <label for="chiefComplaint">Chief Complaint:</label>
+            <textarea id="chiefComplaint" name="chiefComplaint" rows="3" required></textarea>
+
+            <h2>Vital Signs</h2>
+            <div id="vitalsContainer">
+                <div class="vital-set">
+                    <label for="vitalTime_1">Time of Vitals:</label>
+                    <input type="time" id="vitalTime_1" name="vitalTime_1">
+
+                    <label for="bp_1">Blood Pressure (SYS/DIA):</label>
+                    <input type="text" id="bp_1" name="bp_1" placeholder="e.g., 120/80">
+
+                    <label for="hr_1">Heart Rate (BPM):</label>
+                    <input type="number" id="hr_1" name="hr_1">
+
+                    <label for="rr_1">Respiratory Rate (RPM):</label>
+                    <input type="number" id="rr_1" name="rr_1">
+
+                    <label for="spo2_1">SpO2 (%):</label>
+                    <input type="number" id="spo2_1" name="spo2_1">
+
+                    <label for="gcs_1">GCS (E/V/M):</label>
+                    <input type="text" id="gcs_1" name="gcs_1" placeholder="e.g., 4/5/6">
+                </div>
+            </div>
+            <button type="button" id="addVitalSet">Add Another Vital Set</button>
+            
+            <h2>Narrative</h2>
+            <label for="narrative">Narrative/Assessment/Treatment:</label>
+            <textarea id="narrative" name="narrative" rows="6"></textarea>
+
+            <button type="submit">Save Report</button>
+            <button type="button" id="clearForm">Clear Form</button>
+
+        </form>
+    </div>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
