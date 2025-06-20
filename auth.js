@@ -77,6 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const { data, error } = await supabaseClient.auth.signUp({
                     email: email,
                     password: password,
+                    options: {
+                        data: { // This will be stored in auth.users.raw_user_meta_data
+                            role: 'user'
+                        }
+                    }
                 });
                 if (error) {
                     // Check if error is due to user already registered

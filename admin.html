@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - PCR Management</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include Supabase library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard - All Patient Care Reports</h1>
+        <nav>
+            <a href="pcr_form.html">New PCR</a>
+            <button id="logoutButtonAdmin">Logout</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="adminReportListContainer">
+            <h2>All Reports</h2>
+            <ul id="adminReportList"></ul>
+        </section>
+        <div id="adminAccessDenied" style="display:none;">
+            <p>Access Denied. You do not have permission to view this page.</p>
+            <p><a href="pcr_form.html">Go to PCR Form</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 PCR Student App</p>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
