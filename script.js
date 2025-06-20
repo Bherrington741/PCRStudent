@@ -182,6 +182,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const { data: { user } } = await window.supabaseClient.auth.getUser();
             if (!user) throw new Error('User not authenticated.');
 
+            // Add user's full name to the report data
+            if (user.user_metadata && user.user_metadata.full_name) {
+                reportData.providerName = user.user_metadata.full_name;
+            }
+
             const { data, error } = await window.supabaseClient
                 .from('reports') // Ensure you have a 'reports' table in Supabase
                 .insert([
@@ -217,6 +222,11 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const { data: { user } } = await window.supabaseClient.auth.getUser();
             if (!user) throw new Error('User not authenticated.');
+
+            // Add user's full name to the report data
+            if (user.user_metadata && user.user_metadata.full_name) {
+                reportData.providerName = user.user_metadata.full_name;
+            }
 
             const { data, error } = await window.supabaseClient
                 .from('reports')
@@ -488,7 +498,6 @@ document.addEventListener('DOMContentLoaded', () => {
             yPos += lineHeight * 2;
 
             doc.setFontSize(12);
-            doc.text(`Report ID: ${reportId}`, margin, yPos); yPos += lineHeight;
             doc.text(`Generated on: ${new Date().toLocaleString()}`, margin, yPos); yPos += lineHeight;
             doc.text(`Report Created: ${new Date(report.created_at).toLocaleString()}`, margin, yPos); yPos += lineHeight * 2;
 
@@ -496,14 +505,14 @@ document.addEventListener('DOMContentLoaded', () => {
             doc.text('Incident Details', margin, yPos); yPos += lineHeight;
             doc.setFontSize(10);
             doc.text(`Date: ${reportData.incidentDetails?.incidentDate || 'N/A'}`, margin + 5, yPos); yPos += lineHeight;
-            doc.text(`Time: ${reportData.incidentDetails?.incidentTime || 'N/A'}`, margin + 5, yPos); yPos += lineHeight;
-            doc.text(`Location: ${reportData.incidentDetails?.location || 'N/A'}`, margin + 5, yPos); yPos += lineHeight * 2;
+            doc.text(`Time: ${reportData.incidentDetails?.incidentTime || 'N/A'}`, margin + 5, yPos); yPos += lineHeight * 2;
 
             doc.setFontSize(14);
             doc.text('Patient Information', margin, yPos); yPos += lineHeight;
             doc.setFontSize(10);
             doc.text(`Age: ${reportData.patientInfo?.patientAge || 'N/A'}`, margin + 5, yPos); yPos += lineHeight;
             doc.text(`Gender: ${reportData.patientInfo?.patientGender || 'N/A'}`, margin + 5, yPos); yPos += lineHeight;
+             doc.text(`Provider: ${reportData.providerName || 'N/A'}`, margin + 5, yPos); yPos += lineHeight;
             doc.text(`Chief Complaint: ${reportData.patientInfo?.chiefComplaint || 'N/A'}`, margin + 5, yPos); yPos += lineHeight * 2;
 
             doc.setFontSize(14);

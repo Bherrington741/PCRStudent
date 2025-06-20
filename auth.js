@@ -34,6 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.location.pathname.endsWith('/') || window.location.pathname.endsWith('index.html')) {
                 window.location.href = 'pcr_form.html';
             }
+            // Check user role and display admin link if applicable
+            const { user } = session;
+            if (user && user.user_metadata && user.user_metadata.role === 'admin') {
+                const adminLinkContainer = document.getElementById('adminLinkContainer');
+                if (adminLinkContainer) {
+                    adminLinkContainer.innerHTML = '<a href="admin.html">Admin Page</a>';
+                }
+            }
         } else {
             // If on a page other than login (index.html) and not logged in, redirect to login (index.html)
             if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('index.html')) {
@@ -69,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         signUpForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             if (!supabaseClient) { authMessage.textContent = 'Supabase client not initialized.'; return; }
+            const name = signUpForm.signUpName.value;
             const email = signUpForm.signUpEmail.value;
             const password = signUpForm.signUpPassword.value;
             authMessage.textContent = '';
@@ -79,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     password: password,
                     options: {
                         data: { // This will be stored in auth.users.raw_user_meta_data
+                            full_name: name,
                             role: 'user'
                         }
                     }
@@ -135,6 +145,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 // If signed in and on login page (index.html), redirect to pcr_form.html
                 if (window.location.pathname.endsWith('/') || window.location.pathname.endsWith('index.html')) {
                      window.location.href = 'pcr_form.html';
+                }
+                // Check user role and display admin link if applicable
+                const { user } = session;
+                if (user && user.user_metadata && user.user_metadata.role === 'admin') {
+                    const adminLinkContainer = document.getElementById('adminLinkContainer');
+                    if (adminLinkContainer) {
+                        adminLinkContainer.innerHTML = '<a href="admin.html">Admin Page</a>';
+                    }
                 }
             }
         });

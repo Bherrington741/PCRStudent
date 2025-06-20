@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <!-- Include Supabase library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Include jsPDF library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <header>
@@ -20,11 +22,32 @@
     <main>
         <section id="adminReportListContainer">
             <h2>All Reports</h2>
+            <div id="filterControls">
+                <label for="searchComplaint">Search Complaint:</label>
+                <input type="text" id="searchComplaint" placeholder="e.g., Chest Pain">
+                <label for="searchProvider">Search Provider:</label>
+                <input type="text" id="searchProvider" placeholder="e.g., John Doe">
+                <label for="sortOrder">Sort by Date:</label>
+                <select id="sortOrder">
+                    <option value="desc">Newest First</option>
+                    <option value="asc">Oldest First</option>
+                </select>
+                <button id="applyFilters">Apply</button>
+            </div>
             <ul id="adminReportList"></ul>
         </section>
         <div id="adminAccessDenied" style="display:none;">
             <p>Access Denied. You do not have permission to view this page.</p>
             <p><a href="pcr_form.html">Go to PCR Form</a></p>
+        </div>
+        
+        <!-- Modal for viewing report details -->
+        <div id="reportModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <h2>Report Details</h2>
+                <div id="reportDetails"></div>
+            </div>
         </div>
     </main>
 
